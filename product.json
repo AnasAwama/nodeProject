@@ -1,0 +1,38 @@
+{
+    "prod1" : {
+    "name" : "Jeans",
+    "category" : "Pants",
+    "description" : "Black jeans",
+    "id": 1
+    },
+    "prod2" : {
+    "name" : "Polo",
+    "category" : "T-shirt",
+    "description" : "White polo",
+    "id": 2
+    },
+    "prod3" : {
+    "name" : "Air Jordan",
+    "category" : "Sneakers",
+    "description" : "Red and white air jordan Nike",
+    "id":3
+    },
+    "prod4" : {
+        "name" : "Joggers",
+        "category" : "Pants",
+        "description" : "white jogggers",
+        "id":4
+        },
+    "prod5" : {
+        "name" : "Pocket tee",
+        "category" : "T-shirt",
+        "description" : "Black Pocket tee",
+        "id":5
+        },
+    "prod6" : {
+        "name" : "Yeezy",
+        "category" : "Sneakers",
+        "description" : "White yeezy",
+        "id":6
+        }
+    }
