@@ -28,16 +28,29 @@ app.get("/getAllProduct",function(req,res){
 })
 
 
-app.post("/requestProduct/:id",urlEncoded,function(req,res){
-    prod = JSON.parse(prod)
-    var prodId = req.params.id
-    if(prodId>0&&prodId<=6){
-        res.send((prod['prod'+prodId]))
+app.post("/requestProduct/:id", urlEncoded, function (req, res) {
+    const prods = JSON.parse(prod);
+    const id = req.params.id;
+    console.log("this is the value of prodId:" + req.params.id);
+
+    if (req.params.id > 0 && req.params.id <= 6) {
+        res.send(prods['prod' + req.params.id]);
+    } else {
+        res.send("No user with the following Id: " + req.params.id);
     }
-    else{
-        res.send("No user with the following Id: "+prodId)
-    }
-})
+});
+
+// app.post("/requestProduct/:id", urlEncoded, function (req, res) {
+//     const prods = JSON.parse(prod);
+//     const id = req.params.id;
+//     console.log("this is the value of prodId:" + req.params.id);
+
+//     if (req.params.id > 0 && req.params.id <= 6) {
+//         res.send(prods['prod' + req.params.id]);
+//     } else {
+//         res.send("No user with the following Id: " + req.params.id);
+//     }
+// });
 
 app.post("/addProduct",urlEncoded,function(req,res){
     
