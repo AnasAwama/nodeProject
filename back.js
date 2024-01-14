@@ -8,7 +8,7 @@ app.use(body.json());
 var urlEncoded=body.urlencoded({extended:false})
 
 var prod=myfs.readFileSync('product.json')
-
+const prods = JSON.parse(prod); 
 app.use(express.static('public'))
 
 app.get("/retrieveMain",function(req,res){
@@ -27,30 +27,44 @@ app.get("/getAllProduct",function(req,res){
     res.send(prod.toString())
 })
 
+app.get('/checkProduct', (req, res) => {
+    const prods = JSON.parse(prod); 
 
-app.post("/requestProduct/:id", urlEncoded, function (req, res) {
-    const prods = JSON.parse(prod);
-    const id = req.params.id;
-    console.log("this is the value of prodId:" + req.params.id);
+    const options = Object.entries(prods).map(([id, product]) => {
+        if (!product || !product.name || !product.id) {
+            console.error(`Invalid product data for ID ${id}: ${product.toString()}`);
+            return ''; 
+        }
 
-    if (req.params.id > 0 && req.params.id <= 6) {
-        res.send(prods['prod' + req.params.id]);
+        console.log(`ID: ${id}, Name: ${product.name}`);
+        return `<option value="${id}">${product.name}</option>`;
+    }).join('');
+
+    const html = `
+        <h1>Find a Product By Id</h1>
+        <form action="http://localhost:8082/requestProduct" method="POST" enctype="application/x-www-form-urlencoded">
+            <label for="productId">Select Product Id:</label>
+            <select id="productId" name="id">
+                ${options}
+            </select><br />
+            <input type="submit" value="Submit" />
+        </form>`;
+
+    res.send(html);
+});
+
+app.post("/requestProduct", urlEncoded, function (req, res) {
+    
+    const id = req.body.id;
+    console.log("This is the value of prodId: " + id);
+
+    if (id in prods) {
+        res.send(prods[id]);
     } else {
-        res.send("No user with the following Id: " + req.params.id);
+        res.send("No product with the following Id: " + id);
     }
 });
 
-// app.post("/requestProduct/:id", urlEncoded, function (req, res) {
-//     const prods = JSON.parse(prod);
-//     const id = req.params.id;
-//     console.log("this is the value of prodId:" + req.params.id);
-
-//     if (req.params.id > 0 && req.params.id <= 6) {
-//         res.send(prods['prod' + req.params.id]);
-//     } else {
-//         res.send("No user with the following Id: " + req.params.id);
-//     }
-// });
 
 app.post("/addProduct",urlEncoded,function(req,res){
     
